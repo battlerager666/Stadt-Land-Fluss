@@ -1,0 +1,44 @@
+body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+    background-color: antiquewhite;
+    color: black;
+    font-family: fantasy;
+  }
+
+  .main {
+    text-align: center;
+    font-size: 35px;
+  }
+
+  #button_neuesSpiel {
+    width: 200px;
+    height: 30px;
+    font-size: 20px;
+    background-color: rgb(238, 215, 186);
+    border-radius: 15px 15px 15px 15px;
+    border: 1px solid;
+  }
+
+  #button_auslösen {
+    width: 500px;
+    height: 100px;
+    background-color: bisque;
+    border: 2px solid;
+    border-radius: 20px 20px 20px 20px;
+  }
+
+  #button_auslösen:hover {
+    background-color: wheat;
+  }
+
+  #p_Anzeige_ergebnis {
+    font-size: 80px;
+    margin: 50px;
+  }
+
+
+
