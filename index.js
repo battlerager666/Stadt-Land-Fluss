@@ -1,5 +1,8 @@
 var alleBuchstaben = Array("A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z");
 var wievielteRunde = 0;
+var timerMinutes;
+var timerSeconds;
+let timerAktiv;
 
 function neuesSpielStarten(){
     alleBuchstaben = new Array("A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"); //zurücksetzen
@@ -33,4 +36,33 @@ function zufälligerBuchstabeAuslösen(){
     var wievielteRundeAnzeige = document.getElementById("p_Anzeige_wievielteRunde"); //runde updaten + anzeigen
     wievielteRundeAnzeige.innerText = "Runde: " + wievielteRunde;
     }
+}
+
+function StoppuhrAuslösen(){
+    if(document.getElementById("input_Stoppuhr_Zeit").value > 0){
+    timerMinutes = document.getElementById("input_Stoppuhr_Zeit").value; //timer Minuten
+    } else{
+    timerMinutes = 2;
+    }
+
+    timerSeconds = timerMinutes * 60; //timer Sekunden
+
+    if(timerAktiv === undefined){
+    timerAktiv = setInterval(StoppuhrUpdaten, 1000); //timer aktivieren (nur einmal)
+    }
+}
+
+function StoppuhrUpdaten(){
+    document.getElementById("p_Stoppuhr").innerText = timerMinutes + " : " + timerSeconds; //zeit anzeigen + timerSeconds--
+    timerSeconds--;
+}
+
+function StoppuhrAnhalten(){
+    clearInterval(timerAktiv); //mit button timer stoppen
+
+    timerAktiv = undefined; //reset
+}
+
+if(timerSeconds <= 0){
+    clearInterval(timerAktiv); //TEST
 }

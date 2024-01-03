@@ -7,14 +7,27 @@
     <title>zufälliger Buchstabe</title>
 </head>
 <body>
-   <div class="main">
+   <section class="main_Buchstaben">
     <button id="button_neuesSpiel" onclick="neuesSpielStarten()">neues Spiel</button>
     <p id="p_hinweis">Drück den Knopf für einen Buchstaben</p>
     <button id="button_auslösen" onclick="zufälligerBuchstabeAuslösen()"></button>
     <p id="p_Anzeige_ergebnis">...</p>
     <p id="p_Anzeige_wievielteRunde">Runde: 0</p>
     <p id="p_Anzeige_übrigeBuchstaben">Übrige Buchstaben: 26</p>
-   </div>
+   </section>
+
+   <section class="main_Stoppuhr">
+    <input type="number" id="input_Stoppuhr_Zeit" placeholder="Zeit in min">
+    <button id="button_Stoppuhr_auslösen" onclick="StoppuhrAuslösen()">Start</button>
+    <p id="p_Stoppuhr">anzeige</p>
+
+
+    <button onclick="StoppuhrAnhalten()">Stop</button>
+
+
+   </section>
+
+
 
       <script src="index.js"></script>
 </body>
