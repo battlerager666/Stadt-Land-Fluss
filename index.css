@@ -1,7 +1,7 @@
 body {
   margin: 0;
-  background-color: antiquewhite;
-  color: black;
+  background-color: white;
+  color: rgb(60, 60, 60);
   font-family: fantasy;
   overflow: scroll;
 }
@@ -13,7 +13,7 @@ section {
   min-height: 80vh;
 }
 
-.main_Buchstaben {
+.main_Buchstaben { /*Buchstaben*/
   text-align: center;
   font-size: 2rem;
 }
@@ -21,12 +21,12 @@ section {
 #button_neuesSpiel {
   width: 20%;
   font-size: 1.5rem;
-  background-color: rgb(238, 215, 186);
-  border-radius: 15px 15px 15px 15px;
+  background-color: bisque;
+  border-radius: 0.8rem;
   border: 1px solid;
 }
 
-#button_auslösen {
+#button_zufälligerBuchstabeAuslösen {
   width: 50%;
   min-height: 7rem;
   background-color: bisque;
@@ -34,25 +34,47 @@ section {
   border-radius: 2rem;
 }
 
-#button_auslösen:hover {
+#button_zufälligerBuchstabeAuslösen:hover {
   background-color: wheat;
 }
 
-#p_Anzeige_ergebnis {
+#p_Anzeige_welcherBuchstabe {
   font-size: 4rem;
   margin: 2rem;
 }
 
-.main_Stoppuhr {
+.main_Stoppuhr { /*Stoppuhr*/
   text-align: center;
   font-size: 2rem;
+}
+
+#input_Stoppuhr_Zeit{
+  text-align: center;
+  font-size: 1.5rem;
+  border-radius: 0.5rem;
+  color: rgba(0, 0, 0, 1);
+  width: 30%;
+  margin: 1rem;
 }
 
 #button_Stoppuhr_auslösen{
   width: 25%;
   font-size: 1.5rem;
   background-color: rgb(238, 215, 186);
-  border-radius: 15px 15px 15px 15px;
+  border-radius: 0.8rem;
   border: 1px solid;
-  margin: 4rem;
+  margin: 2rem;
+}
+
+#p_Anzeige_Stoppuhr{
+  font-size: 4rem;
+  border: 2px solid;
+  border-radius: 1rem;
+  padding: 0.25rem 1.5rem 0.25rem 1.5rem;
+}
+
+#button_manuellStoppuhrBeenden{
+  font-size: 2rem;
+  border: 1px solid;
+  border-radius: .5rem;
 }
