@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="index.css">
+    <title>zufälliger Buchstabe</title>
+</head>
+<body>
+    <section class="main_Buchstaben">
+        <button id="button_neuesSpiel" onclick="neuesSpielStarten()">neues Spiel</button>
+        <p id="p_hinweis">Drück den Knopf für einen Buchstaben</p>
+        <button id="button_zufälligerBuchstabeAuslösen" onclick="zufälligerBuchstabeAuslösen()"></button>
+        <button id="button_letztenBuchstaben" onclick="letztenBuchstabenAnzeigen()">letzter Buchstabe</button>
+        <p id="p_Anzeige_welcherBuchstabe">...</p>
+        <p id="p_Anzeige_wievielteRunde">Runde: 0</p>
+        <p id="p_Anzeige_übrigeBuchstaben">Übrige Buchstaben: 26</p>
+    </section>
+
+    <section class="main_Stoppuhr">
+        <input type="number" id="input_Stoppuhr_Zeit" placeholder="Zeit in min" oninput="zeitAnzeigen(), StoppuhrBeenden()">
+        <button id="button_Stoppuhr_auslösen" onclick="StoppuhrAuslösen()">Start</button>
+        <p id="p_Anzeige_Stoppuhr">0 : 0</p>
+        <button onclick="StoppuhrBeenden()" id="button_manuellStoppuhrBeenden">Ende</button>
+    </section>
+
+
+      <script src="index.js"></script>
+</body>
+</html>
