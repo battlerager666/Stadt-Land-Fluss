@@ -1,7 +1,8 @@
 var alleBuchstaben = Array("A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z");
 var letzteBuchstaben = Array();
 var resetCounter = 0;
-var wievielteRunde = 0;
+var reelleRunde = 0;
+var rundeZuZeigen = 0;
 var ShowTimerMinutes;
 var timerSecondsTotal;
 var ShowTimerSeconds;
@@ -11,60 +12,120 @@ function changeBackgroundColor(color){
     document.body.style.background = color;
 }
 
+
+
+function shuffle(array) {
+    let currentIndex = array.length;
+
+    while (currentIndex != 0) {
+
+      let randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex--;
+
+      [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
+    }
+}
+
+function rad(weiter){
+    
+
+    var ergebnisAnzeige = [document.getElementById("p_Anzeige_buchstabe1"), document.getElementById("p_Anzeige_buchstabe2"),
+            document.getElementById("p_Anzeige_buchstabe3"), document.getElementById("p_Anzeige_buchstabe4"), document.getElementById("p_Anzeige_buchstabe5")]; //alle referenzen
+
+
+    if(weiter === true && rundeZuZeigen < (alleBuchstaben.length - 1)){ //runden updaten
+        if(rundeZuZeigen === reelleRunde){
+            reelleRunde++;
+            rundeZuZeigen++;
+        }else{
+            rundeZuZeigen++;
+        }
+    } else if(weiter === false && rundeZuZeigen > 0){
+        rundeZuZeigen--;
+    }
+
+
+
+    for (let i = -2; i <= 2; i++) { //buchstaben updaten
+        let index = rundeZuZeigen + i;
+        if (index < 0 || index >= alleBuchstaben.length) {
+            ergebnisAnzeige[(i + 2)].innerText = ""; // Verhindert Fehler, falls Index außerhalb des Arrays
+        } else if (index > reelleRunde) {
+            ergebnisAnzeige[(i + 2)].innerText = "?"; // Falls noch nicht freigeschaltet
+        } else {
+            ergebnisAnzeige[(i + 2)].innerText = alleBuchstaben[index]; // Normale Anzeige
+        }
+    }
+
+
+
+    console.log("reelleRunde: " + reelleRunde);
+    console.log("rundeZuZeigen: " + rundeZuZeigen);
+
+    console.log("weiter: " + weiter);
+
+    
+    document.getElementById("p_Anzeige_reelleRunde").innerText = "Runde: " + (reelleRunde + 1); //runde updaten + anzeigen
+}
+
+function aktuelleRunde(){ //zur aktuellen Runde springen
+
+    var ergebnisAnzeige = [document.getElementById("p_Anzeige_buchstabe1"), document.getElementById("p_Anzeige_buchstabe2"),
+        document.getElementById("p_Anzeige_buchstabe3"), document.getElementById("p_Anzeige_buchstabe4"), document.getElementById("p_Anzeige_buchstabe5")]; //alle referenzen
+
+
+    rundeZuZeigen = reelleRunde;
+    
+
+    for (let i = -2; i <= 2; i++) { //buchstaben updaten
+        let index = rundeZuZeigen + i;
+        if (index < 0 || index >= alleBuchstaben.length) {
+            ergebnisAnzeige[(i + 2)].innerText = ""; // Verhindert Fehler, falls Index außerhalb des Arrays
+        } else if (index > reelleRunde) {
+            ergebnisAnzeige[(i + 2)].innerText = "?"; // Falls noch nicht freigeschaltet
+        } else {
+            ergebnisAnzeige[(i + 2)].innerText = alleBuchstaben[index]; // Normale Anzeige
+        }
+    }
+}
+
 function neuesSpielStarten(){
     alleBuchstaben = new Array("A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"); //zurücksetzen
 
+    shuffle(alleBuchstaben);
+
+    console.log(alleBuchstaben);
+
     letzteBuchstaben = new Array();
 
-    var übrigeBuchstabenZahlBestimmen = document.getElementById("p_Anzeige_übrigeBuchstaben"); //wieviele übrig? zurücksetzen
-    übrigeBuchstabenZahlBestimmen.innerText = "Übrige Buchstaben: " + alleBuchstaben.length;
+    var ergebnisAnzeige1 = document.getElementById("p_Anzeige_buchstabe1"); //buchstaben resetten
+    var ergebnisAnzeige2 = document.getElementById("p_Anzeige_buchstabe2");
+    var ergebnisAnzeige3 = document.getElementById("p_Anzeige_buchstabe3");
+    var ergebnisAnzeige4 = document.getElementById("p_Anzeige_buchstabe4");
+    var ergebnisAnzeige5 = document.getElementById("p_Anzeige_buchstabe5");
 
-    var ergebnisAnzeige = document.getElementById("p_Anzeige_welcherBuchstabe"); //buchstabenAnzeige zurücksetzen
-    ergebnisAnzeige.innerText = "...";
-
-    wievielteRunde = 0;
-    var wievielteRundeAnzeige = document.getElementById("p_Anzeige_wievielteRunde"); //runde updaten zurücksetzen
-    wievielteRundeAnzeige.innerText = "Runde: 0";
-
-    resetCounter = 0;
-}
-
-function zufälligerBuchstabeAuslösen(){
-    if(alleBuchstaben.length > 0) {
-    let zufälligerBuchstabe = alleBuchstaben[Math.floor(Math.random()*alleBuchstaben.length)]; //random Buchstabe
-
-    welcherIndex = alleBuchstaben.indexOf(zufälligerBuchstabe); //verwendeten Buchstaben entfernen
-    alleBuchstaben.splice(welcherIndex, 1);
-
-    letzteBuchstaben.push(zufälligerBuchstabe);
-
-    var ergebnisAnzeige = document.getElementById("p_Anzeige_welcherBuchstabe"); //nächsten buchstaben anzeigen
-    ergebnisAnzeige.innerText = zufälligerBuchstabe;
-
-    var übrigeBuchstabenZahlBestimmen = document.getElementById("p_Anzeige_übrigeBuchstaben"); //wieviele übrig? anzeigen
-    übrigeBuchstabenZahlBestimmen.innerText = "Übrige Buchstaben: " + alleBuchstaben.length;
-
-    wievielteRunde++;
-    var wievielteRundeAnzeige = document.getElementById("p_Anzeige_wievielteRunde"); //runde updaten + anzeigen
-    wievielteRundeAnzeige.innerText = "Runde: " + wievielteRunde;
-    }
-
-    resetCounter = 0;
+    ergebnisAnzeige1.innerText = "";
+    ergebnisAnzeige2.innerText = "";
+    ergebnisAnzeige3.innerText = "?";
+    ergebnisAnzeige4.innerText = "?";
+    ergebnisAnzeige5.innerText = "?";
 
 
     
+    
 
-    console.log(letzteBuchstaben);
+    //resetCounter = 0;
+    reelleRunde = 0;
+    rundeZuZeigen = 0;
+
+    document.getElementById("p_Anzeige_buchstabe3").innerText = alleBuchstaben[0];
+
+    document.getElementById("p_Anzeige_reelleRunde").innerText = "Runde: 1"; //runde updaten zurücksetzen
 }
 
-function letztenBuchstabenAnzeigen(){
-    var ergebnisAnzeige = document.getElementById("p_Anzeige_welcherBuchstabe"); //letzten buchstaben anzeigen
-    ergebnisAnzeige.innerText = letzteBuchstaben[wievielteRunde - (2 + resetCounter)];
 
-    console.log(letzteBuchstaben[wievielteRunde - (2 + resetCounter)]);
 
-    resetCounter++;
-}
+
 
 function StoppuhrAuslösen(){
     changeBackgroundColor("white");
@@ -140,4 +201,44 @@ function zeitAnzeigen(){
     document.getElementById("p_Anzeige_Stoppuhr").innerText = ShowTimerMinutes + " : " + ShowTimerSeconds; //zeit anzeigen
 }
 
+
+
+
+function testAnimation(){
+    const buchstabe = document.getElementById("p_Anzeige_welcherBuchstabe");
+    const duration = 1000; // Dauer der Animation in Millisekunden
+    const start = 0;
+    const end = 100;
+
+    let startTime = null;
+
+    function animate(currentTime) {
+        if (!startTime) startTime = currentTime;
+        const elapsedTime = currentTime - startTime;
+        const progress = Math.min(elapsedTime / duration, 1);
+
+        const newX = start + (end - start) * progress;
+
+        buchstabe.style.left = `${newX}%`;
+
+        console.log(buchstabe.style.left);
+
+        if (progress < 1) {
+            requestAnimationFrame(animate);
+        }
+    }
+
+    requestAnimationFrame(animate);
+};
+
+
+//document.getElementById("p_Anzeige_welcherBuchstabe");
+
 zeitAnzeigen();
+
+alleBuchstaben = new Array("A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"); //zurücksetzen
+
+    shuffle(alleBuchstaben);
+
+
+document.getElementById("p_Anzeige_buchstabe3").innerText = alleBuchstaben[0];
