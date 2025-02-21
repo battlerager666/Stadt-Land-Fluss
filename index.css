@@ -85,7 +85,7 @@ section {
   width: 20%;
   font-size: max(2rem, 50%);
   margin: 1%;
-  border: lightgray 1.5px solid;
+  border: 1.5px solid lightgray;
   border-radius: 0.5rem;
   background-color: rgb(250, 240, 224);
 }
@@ -97,10 +97,26 @@ section {
   font-size: 2rem;
 }
 
+.aktuelles_Feld {
+  background-color: rgb(252, 190, 231) !important;
+}
+
 .main_Stoppuhr { /*section Stoppuhr*/
   text-align: center;
   font-size: 2rem;
 }
+
+
+
+
+
+
+
+
+
+
+
+
 
 #input_Stoppuhr_Zeit {
   text-align: center;

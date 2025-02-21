@@ -33,20 +33,8 @@ window.onload = function(){ //gespeicherte werte übernehmen
     
 
 
-    var ergebnisAnzeige = [document.getElementById("p_Anzeige_buchstabe1"), document.getElementById("p_Anzeige_buchstabe2"),
-        document.getElementById("p_Anzeige_buchstabe3"), document.getElementById("p_Anzeige_buchstabe4"), document.getElementById("p_Anzeige_buchstabe5")]; //alle referenzen
+    buchstabenUpdaten();
 
-
-    for (let i = -2; i <= 2; i++) { //buchstaben updaten
-        let index = rundeZuZeigen + i;
-        if (index < 0 || index >= alleBuchstaben.length) {
-            ergebnisAnzeige[(i + 2)].innerText = ""; // Verhindert Fehler, falls Index außerhalb des Arrays
-        } else if (index > reelleRunde) {
-            ergebnisAnzeige[(i + 2)].innerText = "?"; // Falls noch nicht freigeschaltet
-        } else {
-            ergebnisAnzeige[(i + 2)].innerText = alleBuchstaben[index]; // Normale Anzeige
-        }
-    }
 
 
     document.getElementById("p_Anzeige_reelleRunde").innerText = "Runde: " + (reelleRunde + 1); //runde updaten + anzeigen
@@ -56,9 +44,9 @@ window.onload = function(){ //gespeicherte werte übernehmen
 
 
 
-    console.log(JSON.parse(localStorage.getItem("aktuellesSpiel")));
-    console.log(JSON.parse(localStorage.getItem("rundeZuZeigenSpeichern")));
-    console.log("real: " + JSON.parse(localStorage.getItem("reelleRundeSpeichern")));
+    console.log(JSON.parse(localStorage.getItem("aktuellesSpiel"))); //testen
+    console.log(JSON.parse(localStorage.getItem("rundeZuZeigenSpeichern"))); //testen
+    console.log("real: " + JSON.parse(localStorage.getItem("reelleRundeSpeichern"))); //testen
 }
 
 
@@ -82,11 +70,33 @@ function shuffle(array) {
     }
 }
 
-function rad(weiter){
-    
+function buchstabenUpdaten(){
 
     var ergebnisAnzeige = [document.getElementById("p_Anzeige_buchstabe1"), document.getElementById("p_Anzeige_buchstabe2"),
-            document.getElementById("p_Anzeige_buchstabe3"), document.getElementById("p_Anzeige_buchstabe4"), document.getElementById("p_Anzeige_buchstabe5")]; //alle referenzen
+        document.getElementById("p_Anzeige_buchstabe3"), document.getElementById("p_Anzeige_buchstabe4"), document.getElementById("p_Anzeige_buchstabe5")]; //alle referenzen
+
+
+    for (let i = -2; i <= 2; i++) { //buchstaben updaten
+        let index = rundeZuZeigen + i;
+        let feld = ergebnisAnzeige[i + 2]; //das jeweilige Feld
+
+        feld.classList.remove("aktuelles_Feld");
+
+        if (index < 0 || index >= alleBuchstaben.length) {
+            feld.innerText = ""; // Verhindert Fehler, falls Index außerhalb des Arrays
+        } else if (index > reelleRunde) {
+            feld.innerText = "?"; // Falls noch nicht freigeschaltet
+        } else {
+            feld.innerText = alleBuchstaben[index]; // Normale Anzeige
+
+            if(index === reelleRunde){ //klasse adden
+                feld.classList.add("aktuelles_Feld");
+            }
+        }
+    }
+}
+
+function rad(weiter){
 
 
     if(weiter === true && rundeZuZeigen < (alleBuchstaben.length - 1)){ //runden updaten
@@ -106,21 +116,12 @@ function rad(weiter){
 
 
 
-    for (let i = -2; i <= 2; i++) { //buchstaben updaten
-        let index = rundeZuZeigen + i;
-        if (index < 0 || index >= alleBuchstaben.length) {
-            ergebnisAnzeige[(i + 2)].innerText = ""; // Verhindert Fehler, falls Index außerhalb des Arrays
-        } else if (index > reelleRunde) {
-            ergebnisAnzeige[(i + 2)].innerText = "?"; // Falls noch nicht freigeschaltet
-        } else {
-            ergebnisAnzeige[(i + 2)].innerText = alleBuchstaben[index]; // Normale Anzeige
-        }
-    }
+    buchstabenUpdaten();
 
 
 
-    console.log("reelleRunde: " + reelleRunde);
-    console.log("rundeZuZeigen: " + rundeZuZeigen);
+    // console.log("reelleRunde: " + reelleRunde);
+    // console.log("rundeZuZeigen: " + rundeZuZeigen);
 
     // console.log("weiter: " + weiter);
 
@@ -129,24 +130,10 @@ function rad(weiter){
 }
 
 function aktuelleRunde(){ //zur aktuellen Runde springen
-
-    var ergebnisAnzeige = [document.getElementById("p_Anzeige_buchstabe1"), document.getElementById("p_Anzeige_buchstabe2"),
-        document.getElementById("p_Anzeige_buchstabe3"), document.getElementById("p_Anzeige_buchstabe4"), document.getElementById("p_Anzeige_buchstabe5")]; //alle referenzen
-
-
     rundeZuZeigen = reelleRunde;
     
 
-    for (let i = -2; i <= 2; i++) { //buchstaben updaten
-        let index = rundeZuZeigen + i;
-        if (index < 0 || index >= alleBuchstaben.length) {
-            ergebnisAnzeige[(i + 2)].innerText = ""; // Verhindert Fehler, falls Index außerhalb des Arrays
-        } else if (index > reelleRunde) {
-            ergebnisAnzeige[(i + 2)].innerText = "?"; // Falls noch nicht freigeschaltet
-        } else {
-            ergebnisAnzeige[(i + 2)].innerText = alleBuchstaben[index]; // Normale Anzeige
-        }
-    }
+    buchstabenUpdaten();
 }
 
 function neuesSpielStarten(){
@@ -154,23 +141,8 @@ function neuesSpielStarten(){
 
     shuffle(alleBuchstaben);
 
-    console.log(alleBuchstaben);
+    console.log(alleBuchstaben); //testen
 
-
-    var ergebnisAnzeige1 = document.getElementById("p_Anzeige_buchstabe1"); //buchstaben resetten
-    var ergebnisAnzeige2 = document.getElementById("p_Anzeige_buchstabe2");
-    var ergebnisAnzeige3 = document.getElementById("p_Anzeige_buchstabe3");
-    var ergebnisAnzeige4 = document.getElementById("p_Anzeige_buchstabe4");
-    var ergebnisAnzeige5 = document.getElementById("p_Anzeige_buchstabe5");
-
-    ergebnisAnzeige1.innerText = "";
-    ergebnisAnzeige2.innerText = "";
-    ergebnisAnzeige3.innerText = "?";
-    ergebnisAnzeige4.innerText = "?";
-    ergebnisAnzeige5.innerText = "?";
-
-
-    
     
 
     reelleRunde = 0;
@@ -185,6 +157,9 @@ function neuesSpielStarten(){
 
 
     localStorage.setItem("aktuellesSpiel", JSON.stringify(alleBuchstaben));
+
+
+    buchstabenUpdaten();
 }
 
 
