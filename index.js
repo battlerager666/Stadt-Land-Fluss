@@ -5,6 +5,7 @@ var ShowTimerMinutes;
 var timerSecondsTotal;
 var ShowTimerSeconds;
 let timerAktiv;
+import { daten } from "./daten.js";
 
 
 
@@ -35,7 +36,7 @@ window.onload = function(){ //gespeicherte werte übernehmen
 
     buchstabenUpdaten();
 
-
+    zeitAnzeigen();
 
     document.getElementById("p_Anzeige_reelleRunde").innerText = "Runde: " + (reelleRunde + 1); //runde updaten + anzeigen
 
@@ -44,9 +45,9 @@ window.onload = function(){ //gespeicherte werte übernehmen
 
 
 
-    console.log(JSON.parse(localStorage.getItem("aktuellesSpiel"))); //testen
-    console.log(JSON.parse(localStorage.getItem("rundeZuZeigenSpeichern"))); //testen
-    console.log("real: " + JSON.parse(localStorage.getItem("reelleRundeSpeichern"))); //testen
+    // console.log(JSON.parse(localStorage.getItem("aktuellesSpiel"))); //testen
+    // console.log(JSON.parse(localStorage.getItem("rundeZuZeigenSpeichern"))); //testen
+    // console.log("real: " + JSON.parse(localStorage.getItem("reelleRundeSpeichern"))); //testen
 }
 
 
@@ -96,6 +97,12 @@ function buchstabenUpdaten(){
     }
 }
 
+function updateBeispiele(kategorie){
+    document.getElementById("div_Beispiele").innerText = daten[alleBuchstaben[rundeZuZeigen].toLowerCase()][kategorie.toLowerCase()];
+}
+
+
+
 function rad(weiter){
 
 
@@ -142,6 +149,8 @@ function neuesSpielStarten(){
     shuffle(alleBuchstaben);
 
     console.log(alleBuchstaben); //testen
+
+    
 
     
 
@@ -240,44 +249,33 @@ function zeitAnzeigen(){
     document.getElementById("p_Anzeige_Stoppuhr").innerText = ShowTimerMinutes + " : " + ShowTimerSeconds; //zeit anzeigen
 }
 
-function testAnimation(){
-    const buchstabe = document.getElementById("p_Anzeige_welcherBuchstabe");
-    const duration = 1000; // Dauer der Animation in Millisekunden
-    const start = 0;
-    const end = 100;
-
-    let startTime = null;
-
-    function animate(currentTime) {
-        if (!startTime) startTime = currentTime;
-        const elapsedTime = currentTime - startTime;
-        const progress = Math.min(elapsedTime / duration, 1);
-
-        const newX = start + (end - start) * progress;
-
-        buchstabe.style.left = `${newX}%`;
-
-        console.log(buchstabe.style.left);
-
-        if (progress < 1) {
-            requestAnimationFrame(animate);
-        }
-    }
-
-    requestAnimationFrame(animate);
-};
-
-
-zeitAnzeigen();
 
 
 
-// alleBuchstaben = new Array("A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"); //zurücksetzen
-
-//     shuffle(alleBuchstaben);
 
 
-// document.getElementById("p_Anzeige_buchstabe3").innerText = alleBuchstaben[0]; //ersten buchstaben anzeigen
+
+// Array der Kategorien
+const kategorien = ["Stadt", "Land", "Fluss", "Tier", "Pflanze", "Beruf"];
+
+// Funktion zum Erstellen der Dropdown-Textinhalte
+function generateDropdown() {
+    const dropdownContent = document.getElementById("dropdownContent");
+
+    // Für jede Kategorie im Array einen neuen Text erstellen
+    kategorien.forEach(function(kategorie) {
+        const spanTag = document.createElement("span"); // Erstelle ein <span>-Element
+        spanTag.textContent = kategorie; // Setze den Text des Elements auf den Namen der Kategorie
+
+        spanTag.addEventListener("click", () => updateBeispiele(kategorie));
+
+        dropdownContent.appendChild(spanTag); // Füge den Text zum Dropdown hinzu
+
+    });
+}
+
+// Aufruf der Funktion, um das Dropdown-Menü bei Seitenaufruf zu generieren
+generateDropdown();
 
 
 
@@ -285,4 +283,47 @@ zeitAnzeigen();
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+document.getElementById("button_neuesSpiel").addEventListener("click", neuesSpielStarten);
+
+document.getElementById("p_Anzeige_buchstabe1").addEventListener("click", () => rad(false));
+document.getElementById("p_Anzeige_buchstabe2").addEventListener("click", () => rad(false));
+document.getElementById("p_Anzeige_buchstabe4").addEventListener("click", () => rad(true));
+document.getElementById("p_Anzeige_buchstabe5").addEventListener("click", () => rad(true));
+
+document.getElementById("p_aktuelleRunde").addEventListener("click", aktuelleRunde);
+
+document.getElementById("input_Stoppuhr_Zeit").addEventListener("input", function() { zeitAnzeigen(), StoppuhrBeenden(), updateBeispiele() });
+document.getElementById("button_Stoppuhr_auslösen").addEventListener("click", StoppuhrAuslösen);
+document.getElementById("button_manuellStoppuhrBeenden").addEventListener("click", StoppuhrBeenden);
 

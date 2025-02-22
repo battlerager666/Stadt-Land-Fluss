@@ -7,26 +7,39 @@
     <title>Stadt-Land-Fluss</title>
 </head>
 <body>
-    <section class="main_Buchstaben">
-        <button id="button_neuesSpiel" onclick="neuesSpielStarten()">neues Spiel</button>
+    <section class="section1">
+        <button id="button_neuesSpiel">neues Spiel</button>
         <div id="div_containerBuchstaben">
-            <p id="p_Anzeige_buchstabe1" onclick="rad(false)"></p>
-            <p id="p_Anzeige_buchstabe2" onclick="rad(false)"></p>
+            <p id="p_Anzeige_buchstabe1"></p>
+            <p id="p_Anzeige_buchstabe2"></p>
             <p id="p_Anzeige_buchstabe3">?</p>
-            <p id="p_Anzeige_buchstabe4" onclick="rad(true)">?</p>
-            <p id="p_Anzeige_buchstabe5" onclick="rad(true)">?</p>
+            <p id="p_Anzeige_buchstabe4">?</p>
+            <p id="p_Anzeige_buchstabe5">?</p>
         </div>
         <p id="p_Anzeige_reelleRunde">Runde: 1</p>
-        <p id="p_aktuelleRunde" onclick="aktuelleRunde()">aktuelle Runde</p>
+        <p id="p_aktuelleRunde">aktuelle Runde</p>
     </section>
 
-    <section class="main_Stoppuhr">
-        <input type="number" id="input_Stoppuhr_Zeit" placeholder="Zeit in min" oninput="zeitAnzeigen(), StoppuhrBeenden()">
-        <button id="button_Stoppuhr_auslösen" onclick="StoppuhrAuslösen()">Start</button>
+    <section class="section2">
         <p id="p_Anzeige_Stoppuhr">0 : 0</p>
-        <button onclick="StoppuhrBeenden(), testAnimation()" id="button_manuellStoppuhrBeenden">Ende</button>
+        <div id="div_buttonsStoppuhr">
+            <button id="button_Stoppuhr_auslösen">Start</button>
+            <button id="button_manuellStoppuhrBeenden">Ende</button>
+        </div>
+        <input type="number" id="input_Stoppuhr_Zeit" placeholder="Zeit in min">
     </section>
 
-      <script src="index.js"></script>
+    <section class="section3">
+        <div class="dropdown">
+            <button class="dropbtn">Wähle eine Kategorie</button>
+            <div class="dropdown-content" id="dropdownContent">
+                <!-- Dynamische Textinhalte werden hier generiert -->
+            </div>
+        </div>
+
+        <div id="div_Beispiele"></div>
+    </section>
+
+      <script type="module" src="index.js"></script>
 </body>
 </html>
