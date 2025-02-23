@@ -161,7 +161,7 @@ export const daten = {
     },
     "q": {
         "stadt": ["Quickborn (Deutschland)", "Quedlinburg (Deutschland)", "Quakenbrück (Deutschland)", "Quebec (Kanada)", "Quimper (Frankreich)"],
-        "land": ["Es gibt kein Land mit dem Anfangsbuchstaben Q"],
+        "land": ["Qatar (englische Schreibweise)"],
         "fluss": ["Queich (Deutschland)", "Queis (Polen)", "Qu’Appelle River (Kanada)"],
         "name": ["Quinn"],
         "beruf": ["Qualitätsmanager"],
@@ -222,7 +222,7 @@ export const daten = {
     "w": {
         "stadt": ["Wuppertal (Deutschland)", "Werne (Deutschland)", "Würzburg (Deutschland)", "Washington (USA)", "Wien (Österreich)"],
         "land": ["Weißrussland"],
-        "fluss": ["Weser (Deutschland)", "Werra (Deutschland)", "Wupper (Deutschland)", "Weichsel (Europa)", "Wolga Russland"],
+        "fluss": ["Weser (Deutschland)", "Werra (Deutschland)", "Wupper (Deutschland)", "Weichsel (Europa)", "Wolga (Russland)"],
         "name": ["Wolf", "Willi", "Winnie", "Werner", "Wilhelm", "William", "Wolfgang"],
         "beruf": ["Wärme, Kälte und Schallschutzisolierer", "Wasserbauer", "Weintechnologe", "Werkfeuerwehrmann", "Werkstoffprüfer"],
         "tier": ["Wacholderdrossel", "Wachtelkönig", "Waldammer", "Wald-Dickkopf", "Waldfrosch"],

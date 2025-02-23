@@ -5,6 +5,7 @@ var ShowTimerMinutes;
 var timerSecondsTotal;
 var ShowTimerSeconds;
 let timerAktiv;
+let aktuelleKategorie;
 import { daten } from "./daten.js";
 
 
@@ -39,8 +40,6 @@ window.onload = function(){ //gespeicherte werte übernehmen
     zeitAnzeigen();
 
     document.getElementById("p_Anzeige_reelleRunde").innerText = "Runde: " + (reelleRunde + 1); //runde updaten + anzeigen
-
-
 
 
 
@@ -97,9 +96,28 @@ function buchstabenUpdaten(){
     }
 }
 
-function updateBeispiele(kategorie){
-    document.getElementById("div_Beispiele").innerText = daten[alleBuchstaben[rundeZuZeigen].toLowerCase()][kategorie.toLowerCase()];
+function updateBeispiele(){
+    if(!aktuelleKategorie){
+        return;
+    }
+
+    let kategorie = aktuelleKategorie;
+    const container = document.getElementById("div_Beispiele");
+    const beispieleArray = daten[alleBuchstaben[rundeZuZeigen].toLowerCase()][kategorie.toLowerCase()];
+
+    container.replaceChildren();
+
+    if (beispieleArray && beispieleArray.length > 0) {
+        beispieleArray.forEach(beispiel => {
+            const p = document.createElement("p");
+            p.textContent = beispiel;
+            container.appendChild(p);
+        });
+    } else {
+        container.innerText = "Keine Beispiele gefunden.";
+    }
 }
+
 
 
 
@@ -125,6 +143,7 @@ function rad(weiter){
 
     buchstabenUpdaten();
 
+    updateBeispiele();
 
 
     // console.log("reelleRunde: " + reelleRunde);
@@ -148,9 +167,7 @@ function neuesSpielStarten(){
 
     shuffle(alleBuchstaben);
 
-    console.log(alleBuchstaben); //testen
-
-    
+    document.getElementById("div_Beispiele").replaceChildren(); //alle beispiele unten entfernen
 
     
 
@@ -159,11 +176,7 @@ function neuesSpielStarten(){
     rundeZuZeigen = 0;
     localStorage.setItem("rundeZuZeigenSpeichern", JSON.stringify(rundeZuZeigen)); //rundeZuZeigen speichern
 
-    document.getElementById("p_Anzeige_buchstabe3").innerText = alleBuchstaben[0];
-
     document.getElementById("p_Anzeige_reelleRunde").innerText = "Runde: 1"; //runde updaten zurücksetzen
-
-
 
     localStorage.setItem("aktuellesSpiel", JSON.stringify(alleBuchstaben));
 
@@ -203,6 +216,7 @@ function StoppuhrUpdaten(){
         clearInterval(timerAktiv);
         timerAktiv = undefined;
         changeBackgroundColor("orange");
+        wecker();
     }
 
     if(ShowTimerMinutes < 10){
@@ -249,32 +263,51 @@ function zeitAnzeigen(){
     document.getElementById("p_Anzeige_Stoppuhr").innerText = ShowTimerMinutes + " : " + ShowTimerSeconds; //zeit anzeigen
 }
 
+function wecker() {
+    let context = new (window.AudioContext || window.webkitAudioContext)();
+    
+    function spieleTon(frequenz, dauer, lautstaerke, fadeDauer) {
+        const oscillator = context.createOscillator();
+        const gainNode = context.createGain();
+
+        oscillator.type = "sine"; // Sanfter Klang (Sinuswelle)
+        oscillator.frequency.setValueAtTime(frequenz, context.currentTime); // Frequenz einstellen
+        gainNode.gain.setValueAtTime(lautstaerke, context.currentTime); // Lautstärke einstellen
+
+        oscillator.connect(gainNode);
+        gainNode.connect(context.destination);
+
+        oscillator.start(context.currentTime); // Ton starten
+        oscillator.stop(context.currentTime + dauer); // Ton stoppen nach der Dauer
+
+        // Fade-out Effekt: Lautstärke langsam reduzieren
+        gainNode.gain.linearRampToValueAtTime(0, context.currentTime + fadeDauer); // Fade out über die gegebene Zeit
+    }
+
+    spieleTon(440, 3, 1, 2); 
+}
 
 
-
-
-
-
-// Array der Kategorien
 const kategorien = ["Stadt", "Land", "Fluss", "Tier", "Pflanze", "Beruf"];
 
-// Funktion zum Erstellen der Dropdown-Textinhalte
 function generateDropdown() {
     const dropdownContent = document.getElementById("dropdownContent");
 
-    // Für jede Kategorie im Array einen neuen Text erstellen
     kategorien.forEach(function(kategorie) {
-        const spanTag = document.createElement("span"); // Erstelle ein <span>-Element
-        spanTag.textContent = kategorie; // Setze den Text des Elements auf den Namen der Kategorie
+        const spanTag = document.createElement("span");
+        spanTag.textContent = kategorie;
 
-        spanTag.addEventListener("click", () => updateBeispiele(kategorie));
+        spanTag.addEventListener("click", function(){
+            aktuelleKategorie = kategorie;
 
-        dropdownContent.appendChild(spanTag); // Füge den Text zum Dropdown hinzu
+            updateBeispiele();
+        });
+
+        dropdownContent.appendChild(spanTag);
 
     });
-}
+} // dropdown menü erstellen ( kategorien zum auswählen )
 
-// Aufruf der Funktion, um das Dropdown-Menü bei Seitenaufruf zu generieren
 generateDropdown();
 
 
@@ -285,36 +318,13 @@ generateDropdown();
 
 
 
+document.getElementById("button_neuesSpiel").addEventListener("click", function(){
+    let bestaetigung = confirm("neues Spiel starten?");
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-document.getElementById("button_neuesSpiel").addEventListener("click", neuesSpielStarten);
+    if(bestaetigung){
+        neuesSpielStarten();
+    }
+});
 
 document.getElementById("p_Anzeige_buchstabe1").addEventListener("click", () => rad(false));
 document.getElementById("p_Anzeige_buchstabe2").addEventListener("click", () => rad(false));
@@ -326,4 +336,3 @@ document.getElementById("p_aktuelleRunde").addEventListener("click", aktuelleRun
 document.getElementById("input_Stoppuhr_Zeit").addEventListener("input", function() { zeitAnzeigen(), StoppuhrBeenden(), updateBeispiele() });
 document.getElementById("button_Stoppuhr_auslösen").addEventListener("click", StoppuhrAuslösen);
 document.getElementById("button_manuellStoppuhrBeenden").addEventListener("click", StoppuhrBeenden);
-
